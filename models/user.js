@@ -1,5 +1,4 @@
 const { createHmac, randomBytes } = require("crypto");
-
 const { Schema, model } = require("mongoose");
 
 const userSchema = new Schema(
@@ -15,7 +14,6 @@ const userSchema = new Schema(
     },
     salt: {
       type: String,
-      
     },
     password: {
       type: String,
@@ -23,7 +21,7 @@ const userSchema = new Schema(
     },
     profileImageURL: {
       type: String,
-      default: "/images/Default.avif",
+      default: "/images/default.avif",
     },
     role: {
       type: String,
@@ -34,20 +32,41 @@ const userSchema = new Schema(
   { timestamps: true },
 );
 
-userSchema.pre("save", function (next) {
+// 🔐 Hash Password Before Save
+userSchema.pre("save", async function () {
   const user = this;
 
   if (!user.isModified("password")) return;
 
-  const salt = randomBytes(16).toString();
-  const hashedpassword = createHmac("sha256", salt)
+  const salt = randomBytes(16).toString("hex");
+
+  const hashedPassword = createHmac("sha256", salt)
     .update(user.password)
     .digest("hex");
 
-    this.salt = salt;
-    this.password = hashedpassword;
+  user.salt = salt;
+  user.password = hashedPassword;
 });
 
-const User = model("user", userSchema);
+// 🔎 Match Password (Login)
+userSchema.statics.matchPassword = async function (email, password) {
+  const user = await this.findOne({ email });
+
+  if (!user) throw new Error("User not found");
+
+  const userProvidedHash = createHmac("sha256", user.salt)
+    .update(password)
+    .digest("hex");
+
+  if (user.password !== userProvidedHash) throw new Error("Incorrect Password");
+
+  const userObj = user.toObject();
+  delete userObj.password;
+  delete userObj.salt;
+
+  return userObj;
+};
+
+const User = model("User", userSchema);
 
 module.exports = User;

@@ -3,21 +3,49 @@ const User = require("../models/user");
 
 const router = Router();
 
-router.get("/signin", (req, res) => {
-  return res.render("singin");
-});
+// Render Pages
 router.get("/signup", (req, res) => {
-  return res.render("signup");
+  res.render("signup");
 });
 
-router.post("/signup", async(req, res) => {
-  const { fullName, email, password } = req.body;
-  await User.create({
-    fullName,
-    email,
-    password,
-  });
-  return res.redirect("/");
+router.get("/signin", (req, res) => {
+  res.render("signin");
+});
+
+// 📝 Signup
+router.post("/signup", async (req, res) => {
+  try {
+    const { fullName, email, password } = req.body;
+
+    const newUser = await User.create({
+      fullName,
+      email,
+      password,
+    });
+
+    console.log("✅ User Saved:", newUser);
+
+    res.redirect("/");
+  } catch (error) {
+    console.log("❌ Signup Error:", error.message);
+    res.send(error.message);
+  }
+});
+
+// 🔐 Signin
+router.post("/signin", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await User.matchPassword(email, password);
+
+    console.log("✅ Logged in:", user);
+
+    res.redirect("/");
+  } catch (error) {
+    console.log("❌ Login Error:", error.message);
+    res.send(error.message);
+  }
 });
 
 module.exports = router;
