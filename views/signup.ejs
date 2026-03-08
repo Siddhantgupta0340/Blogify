@@ -1,49 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <%- include('./partials/head') %>
-    <title>Signup</title>
-  </head>
-  <body>
-    <%- include('./partials/nav') %>
+<%- include("./partials/head") %>
 
-    <div class="container mt-4">
-      <form action="/user/signup" method="post">
-        <div class="mb-3">
-          <label for="fullName" class="form-label">Full Name</label>
-          <input
-            type="text"
-            class="form-control"
-            id="fullName"
-            name="fullName"
-            aria-describedby="fullName"
-          />
-        </div>
-        <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label"
-            >Email address</label
-          >
-          <input
-            type="email"
-            name="email"
-            class="form-control"
-            id="exampleInputEmail1"
-            aria-describedby="emailHelp"
-          />
-        </div>
-        <div class="mb-3">
-          <label for="exampleInputPassword1" class="form-label">Password</label>
-          <input
-            name="password"
-            type="password"
-            class="form-control"
-            id="exampleInputPassword1"
-          />
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
-    </div>
+<div class="auth-container">
+  <div class="card shadow p-4" style="width: 400px">
+    <h3 class="text-center mb-3">Create Account</h3>
 
-    <%- include('./partials/scripts') %>
-  </body>
-</html>
+    <div id="error" class="text-danger text-center mb-2"></div>
+
+    <form id="signupForm">
+      <input
+        type="text"
+        name="fullName"
+        class="form-control mb-3"
+        placeholder="Full Name"
+        required
+      />
+
+      <input
+        type="email"
+        name="email"
+        class="form-control mb-3"
+        placeholder="Email Address"
+        required
+      />
+
+      <input
+        type="password"
+        name="password"
+        class="form-control mb-3"
+        placeholder="Password"
+        required
+      />
+
+      <button class="btn btn-primary w-100">Signup</button>
+    </form>
+
+    <p class="text-center mt-3">
+      Already have an account ?
+
+      <a href="/signin">Login</a>
+    </p>
+  </div>
+</div>
+
+<%- include("./partials/scripts") %>

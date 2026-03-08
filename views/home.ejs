@@ -1,11 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <%- include('./partials/head') %>
-    <title>Homepage</title>
-  </head>
-  <body>
-    <%- include('./partials/nav') %>
-    <%- include('./partials/scripts') %>
-  </body>
-</html>
+<%- include("./partials/head") %> <%- include("./partials/nav") %>
+
+<div class="container mt-4">
+  <h2 class="mb-4">Latest Blogs</h2>
+
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card shadow mb-3">
+        <div class="card-body">
+          <h5 class="card-title">Node.js Authentication</h5>
+
+          <p class="card-text">
+            Learn how to implement login and signup using JWT.
+          </p>
+
+          <button class="btn btn-primary">Read More</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card shadow mb-3">
+        <div class="card-body">
+          <h5 class="card-title">MongoDB Guide</h5>
+
+          <p class="card-text">
+            Understand collections and documents in MongoDB.
+          </p>
+
+          <button class="btn btn-primary">Read More</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card shadow mb-3">
+        <div class="card-body">
+          <h5 class="card-title">Express.js Basics</h5>
+
+          <p class="card-text">
+            Build fast backend applications using Express.
+          </p>
+
+          <button class="btn btn-primary">Read More</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include("./partials/scripts") %>

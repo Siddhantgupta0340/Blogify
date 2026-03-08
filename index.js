@@ -1,32 +1,36 @@
-const express = require("express");
-const path = require("path");
-const mongoose = require("mongoose");
-
-const userRoute = require("./routes/user");
+import express from "express";
+import cookieParser from "cookie-parser";
+import { connectDB } from "./config/db.js";
+import authRoutes from "./routes/authRoutes.js";
+import { auth } from "./middlewares/auth.js";
 
 const app = express();
-const PORT = 8000;
 
-// 🔥 MongoDB Connection
-mongoose
-  .connect("mongodb://127.0.0.1:27017/blogify")
-  .then(() => console.log("✅ MongoDB Connected"))
-  .catch((err) => console.log("❌ Mongo Error:", err));
+connectDB();
 
-// View Engine
-app.set("view engine", "ejs");
-app.set("views", path.resolve("./views"));
-
-// Body Parser
-app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Routes
-app.get("/", (req, res) => {
+app.use(cookieParser());
+
+app.use(express.static("public"));
+
+app.set("view engine", "ejs");
+
+app.get("/signup", (req, res) => {
+  res.render("signup");
+});
+
+app.get("/signin", (req, res) => {
+  res.render("signin");
+});
+
+app.get("/home", auth, (req, res) => {
   res.render("home");
 });
 
-app.use("/user", userRoute);
+app.use("/api", authRoutes);
 
-// Start Server
-app.listen(PORT, () => console.log(`🚀 Server Started at PORT: ${PORT}`));
+app.listen(3000, () => {
+  console.log("Server running on port 3000");
+});
