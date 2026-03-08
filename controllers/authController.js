@@ -66,6 +66,7 @@ export const signin = async (req, res) => {
     {
       id: user._id,
       email: user.email,
+      fullName: user.fullName,
     },
     "SECRET123",
   );
