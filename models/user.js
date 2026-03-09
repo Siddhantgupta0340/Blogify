@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema({
 
   profileImage:{
     type:String,
-    default:"/public/images/Default.avif"
+    default:"/uploads/Default.avif"
   }
 
 },{timestamps:true});

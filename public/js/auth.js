@@ -1,27 +1,39 @@
 const form = document.querySelector("form");
 
 form.addEventListener("submit", async (e) => {
-  e.preventDefault();
 
-  const formData = new FormData(form);
+e.preventDefault();
 
-  const data = Object.fromEntries(formData);
+const formData = new FormData(form);
 
-  const url = form.id === "signupForm" ? "/api/signup" : "/api/signin";
+const data = Object.fromEntries(formData);
 
-  const res = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
+const url = form.id === "signupForm"
+? "/api/signup"
+: "/api/signin";
 
-  const result = await res.json();
+const res = await fetch(url,{
 
-  if (!result.success) {
-    document.getElementById("error").innerText = result.message;
-  } else {
-    window.location.href = "/home";
-  }
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify(data)
+
+});
+
+const result = await res.json();
+
+if(!result.success){
+
+document.getElementById("error").innerText = result.message;
+
+}else{
+
+window.location.href="/home";
+
+}
+
 });
